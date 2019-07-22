@@ -21,8 +21,8 @@ import kotlinx.android.synthetic.main.recycler_view_match_item_row.view.localTea
 import kotlinx.android.synthetic.main.recycler_view_match_item_row.view.venueAndTimeTextView
 import kotlinx.android.synthetic.main.recycler_view_result_item_row.view.*
 
-class ResultsRecyclerViewAdapter(var matches: List<SoccerMatch> = ArrayList()) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ResultsRecyclerViewAdapter(matches: List<SoccerMatch> = ArrayList()) :
+    BaseRecyclerViewAdapter(matches) {
 
     companion object {
         private const val HEADER = 0
@@ -30,7 +30,7 @@ class ResultsRecyclerViewAdapter(var matches: List<SoccerMatch> = ArrayList()) :
     }
 
 
-    override fun getItemCount(): Int = matches.size
+    override fun getItemCount(): Int = filterMatchesList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -56,7 +56,7 @@ class ResultsRecyclerViewAdapter(var matches: List<SoccerMatch> = ArrayList()) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (matches[position].state == State.Header) {
+        return if (filterMatchesList[position].state == State.Header) {
             HEADER
         } else {
             MATCH_ITEM
@@ -65,37 +65,37 @@ class ResultsRecyclerViewAdapter(var matches: List<SoccerMatch> = ArrayList()) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolderHeader) {
-            holder.itemView.dateTextView.text = matches[position].date?.getMonthAndYear()
+            holder.itemView.dateTextView.text = filterMatchesList[position].date?.getMonthAndYear()
         } else if (holder is ViewHolderMatch) {
-            holder.itemView.competitionTextView.text = matches[position].competitionStage?.competition?.name
+            holder.itemView.competitionTextView.text = filterMatchesList[position].competitionStage?.competition?.name
 
-            holder.itemView.venueAndTimeTextView.text = matches[position].venue?.name
+            holder.itemView.venueAndTimeTextView.text = filterMatchesList[position].venue?.name
 
-            val formattedDate = matches[position].date?.fixtureDateFormat() ?: ""
-            val venue = matches[position].venue?.name + " | "
+            val formattedDate = filterMatchesList[position].date?.fixtureDateFormat() ?: ""
+            val venue = filterMatchesList[position].venue?.name + " | "
             val venueAndTime = venue + formattedDate
             holder.itemView.venueAndTimeTextView.text = venueAndTime
 
             //Highlight winner
-            if (matches[position].score?.winner == Winner.Home) {
+            if (filterMatchesList[position].score?.winner == Winner.Home) {
                 holder.itemView.localTeamTextView.text = highlightWinner(
-                    matches[position]
+                    filterMatchesList[position]
                         .homeTeam?.name ?: ""
                 )
             } else {
-                holder.itemView.localTeamTextView.text = matches[position].homeTeam?.name
+                holder.itemView.localTeamTextView.text = filterMatchesList[position].homeTeam?.name
             }
-            if (matches[position].score?.winner == Winner.Away) {
+            if (filterMatchesList[position].score?.winner == Winner.Away) {
                 holder.itemView.awayTeamTextView.text = highlightWinner(
-                    matches[position]
+                    filterMatchesList[position]
                         .awayTeam?.name ?: ""
                 )
             } else {
-                holder.itemView.awayTeamTextView.text = matches[position].awayTeam?.name
+                holder.itemView.awayTeamTextView.text = filterMatchesList[position].awayTeam?.name
             }
 
-            holder.itemView.localTeamScoreTextView.text = matches[position].score?.home.toString()
-            holder.itemView.awayTeamScoreTextView.text = matches[position].score?.away.toString()
+            holder.itemView.localTeamScoreTextView.text = filterMatchesList[position].score?.home.toString()
+            holder.itemView.awayTeamScoreTextView.text = filterMatchesList[position].score?.away.toString()
         }
     }
 

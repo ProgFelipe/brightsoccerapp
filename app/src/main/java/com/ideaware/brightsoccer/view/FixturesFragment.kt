@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ideaware.brightsoccer.R
 import com.ideaware.brightsoccer.api.RetrofitFactory
+import com.ideaware.brightsoccer.view.adapter.BaseRecyclerViewAdapter
 import com.ideaware.brightsoccer.view.adapter.FixturesRecyclerViewAdapter
 import com.ideaware.brightsoccer.viewmodel.FixturesViewModel
 import com.ideaware.brightsoccer.viewmodel.IFixturesViewModel
@@ -44,9 +45,12 @@ class FixturesFragment : Fragment(), IFixturesView {
         })
 
         viewModel.fixturesLiveData.observe(this, Observer {
-            (recyclerView.adapter as FixturesRecyclerViewAdapter).matches = it
-            (recyclerView.adapter as FixturesRecyclerViewAdapter).notifyDataSetChanged()
+            (recyclerView.adapter as FixturesRecyclerViewAdapter).updateMatches(it)
         })
+    }
+
+    fun getRecyclerViewAdapter(): BaseRecyclerViewAdapter {
+        return recyclerView.adapter as FixturesRecyclerViewAdapter
     }
 
     override fun showProgressBar() {

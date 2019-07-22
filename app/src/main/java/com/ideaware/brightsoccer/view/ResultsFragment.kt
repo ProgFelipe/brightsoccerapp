@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ideaware.brightsoccer.R
 import com.ideaware.brightsoccer.api.RetrofitFactory
+import com.ideaware.brightsoccer.view.adapter.BaseRecyclerViewAdapter
 import com.ideaware.brightsoccer.view.adapter.ResultsRecyclerViewAdapter
 import com.ideaware.brightsoccer.viewmodel.*
 import kotlinx.android.synthetic.main.fragment_fixtures.*
@@ -43,11 +44,13 @@ class ResultsFragment : Fragment(), IResultsView {
         })
 
         viewModel.resultsLiveData.observe(this, Observer {
-            (recyclerView.adapter as ResultsRecyclerViewAdapter).matches = it
-            (recyclerView.adapter as ResultsRecyclerViewAdapter).notifyDataSetChanged()
+            (recyclerView.adapter as ResultsRecyclerViewAdapter).updateMatches(it)
         })
     }
 
+    fun getRecyclerViewAdapter(): BaseRecyclerViewAdapter? {
+        return recyclerView.adapter as ResultsRecyclerViewAdapter
+    }
 
     override fun showProgressBar() {
         progressBar.visibility = View.VISIBLE

@@ -18,16 +18,15 @@ import kotlinx.android.synthetic.main.recycler_view_header_item_row.view.*
 import kotlinx.android.synthetic.main.recycler_view_match_item_row.view.*
 
 
-class FixturesRecyclerViewAdapter(var matches: List<SoccerMatch> = ArrayList()) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FixturesRecyclerViewAdapter(matches: List<SoccerMatch> = ArrayList()) :
+    BaseRecyclerViewAdapter(matches) {
 
     companion object {
         private const val HEADER = 0
         private const val MATCH_ITEM = 1
     }
 
-
-    override fun getItemCount(): Int = matches.size
+    override fun getItemCount(): Int = filterMatchesList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -53,7 +52,7 @@ class FixturesRecyclerViewAdapter(var matches: List<SoccerMatch> = ArrayList()) 
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (matches[position].state == State.Header) {
+        return if (filterMatchesList[position].state == State.Header) {
             HEADER
         } else {
             MATCH_ITEM
@@ -62,17 +61,17 @@ class FixturesRecyclerViewAdapter(var matches: List<SoccerMatch> = ArrayList()) 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolderHeader) {
-            holder.itemView.dateTextView.text = matches[position].date?.getMonthAndYear()
+            holder.itemView.dateTextView.text = filterMatchesList[position].date?.getMonthAndYear()
         } else if (holder is ViewHolderMatch) {
-            holder.itemView.competitionTextView.text = matches[position].competitionStage?.competition?.name
+            holder.itemView.competitionTextView.text = filterMatchesList[position].competitionStage?.competition?.name
 
-            holder.itemView.venueAndTimeTextView.text = matches[position].venue?.name
+            holder.itemView.venueAndTimeTextView.text = filterMatchesList[position].venue?.name
 
-            val formattedDate = matches[position].date?.fixtureDateFormat() ?: ""
-            val venue = matches[position].venue?.name + " | "
+            val formattedDate = filterMatchesList[position].date?.fixtureDateFormat() ?: ""
+            val venue = filterMatchesList[position].venue?.name + " | "
             val venueAndTime = venue + formattedDate
 
-            if (matches[position].state == State.Postponed) {
+            if (filterMatchesList[position].state == State.Postponed) {
                 val spannable = SpannableString(venueAndTime)
                 spannable.setSpan(
                     ForegroundColorSpan(Color.RED),
@@ -84,13 +83,13 @@ class FixturesRecyclerViewAdapter(var matches: List<SoccerMatch> = ArrayList()) 
                 holder.itemView.venueAndTimeTextView.text = venueAndTime
             }
 
-            holder.itemView.localTeamTextView.text = matches[position].homeTeam?.name
-            holder.itemView.awayTeamTextView.text = matches[position].awayTeam?.name
+            holder.itemView.localTeamTextView.text = filterMatchesList[position].homeTeam?.name
+            holder.itemView.awayTeamTextView.text = filterMatchesList[position].awayTeam?.name
 
-            holder.itemView.posponedButton.visibility = if (matches[position].state == State.Postponed) View.VISIBLE
+            holder.itemView.posponedButton.visibility = if (filterMatchesList[position].state == State.Postponed) View.VISIBLE
             else View.GONE
 
-            holder.itemView.matchDayTextView.text = matches[position].date?.dayAndDayName()
+            holder.itemView.matchDayTextView.text = filterMatchesList[position].date?.dayAndDayName()
         }
     }
 

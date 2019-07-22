@@ -6,4 +6,5 @@
     <string name="fixtures">Fixtures</string>
     <string name="results">Results</string>
     <string name="postponed">POSTPONED</string>
+    <string name="search_tournament_hint">Filter by Tournament</string>
 </resources>
