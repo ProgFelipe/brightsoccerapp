@@ -8,8 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.ideaware.brightsoccer.R
+import kotlinx.android.synthetic.main.fragment_results.*
 
-class ResultsFragment : Fragment() {
+class ResultsFragment : Fragment(), IResultsView {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,6 +23,15 @@ class ResultsFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            FixturesFragment()
+            ResultsFragment()
     }
+
+    override fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        progressBar.visibility = View.GONE
+    }
+
 }

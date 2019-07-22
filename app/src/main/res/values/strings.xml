@@ -5,4 +5,5 @@
     <!--Matches-->
     <string name="fixtures">Fixtures</string>
     <string name="results">Results</string>
+    <string name="postponed">POSTPONED</string>
 </resources>
