@@ -4,17 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.ideaware.brightsoccer.service.BrightService
+import com.ideaware.brightsoccer.service.ApiErrorResponse
+import com.ideaware.brightsoccer.service.ApiSuccessResponse
+import com.ideaware.brightsoccer.service.SoccerMatchesService
+import com.ideaware.brightsoccer.service.NetworkBound
 import com.ideaware.brightsoccer.service.model.SoccerMatch
 import com.ideaware.brightsoccer.service.model.State
 import com.ideaware.brightsoccer.utils.getCalendar
 import com.ideaware.brightsoccer.utils.getDate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.util.*
 
-class ResultsViewModel(private val brightService: BrightService) : ViewModel(), IResultsViewModel {
+class ResultsViewModel(private val soccerMatchesService: SoccerMatchesService) : ViewModel(), IResultsViewModel {
 
     /**
      * To promote Encapsulation and Immutability
@@ -22,8 +23,8 @@ class ResultsViewModel(private val brightService: BrightService) : ViewModel(), 
     private val loadingStateLiveData = MutableLiveData<Boolean>()
     override val loadingState: LiveData<Boolean> = loadingStateLiveData
 
-    //private val errorStateLiveData = MutableLiveData<Resource<*>>()
-    //override val errorState: LiveData<Resource<*>> = errorStateLiveData
+    private val errorStateLiveData = MutableLiveData<ApiErrorResponse<*>>()
+    override val errorState: LiveData<ApiErrorResponse<*>> = errorStateLiveData
 
     private val tempLiveData = MutableLiveData<List<SoccerMatch>>()
 
@@ -36,12 +37,26 @@ class ResultsViewModel(private val brightService: BrightService) : ViewModel(), 
         } as MutableLiveData<List<SoccerMatch>>
 
     override fun callResultsService() {
-        GlobalScope.launch(Dispatchers.IO) {
-            loadingStateLiveData.postValue(true)
-            val result = brightService.getResults()
-            val match = result.body()
-            loadingStateLiveData.postValue(false)
-            matchesLiveData.postValue(match)
+        object : NetworkBound<List<SoccerMatch>>() {
+            override suspend fun createCall(): Response<List<SoccerMatch>> {
+                return soccerMatchesService.getResults()
+            }
+
+            override fun onFetchFailed(apiErrorResponse: ApiErrorResponse<List<SoccerMatch>>) {
+                errorStateLiveData.postValue(apiErrorResponse)
+            }
+
+            override fun onStartFetching() {
+                loadingStateLiveData.postValue(true)
+            }
+
+            override fun onFinishFetching() {
+                loadingStateLiveData.postValue(false)
+            }
+
+            override fun processResponse(response: ApiSuccessResponse<List<SoccerMatch>>) {
+                matchesLiveData.postValue(response.body)
+            }
         }
     }
 

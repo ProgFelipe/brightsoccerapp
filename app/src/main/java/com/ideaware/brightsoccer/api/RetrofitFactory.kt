@@ -1,7 +1,7 @@
 package com.ideaware.brightsoccer.api
 
 import com.ideaware.brightsoccer.BuildConfig
-import com.ideaware.brightsoccer.service.BrightService
+import com.ideaware.brightsoccer.service.SoccerMatchesService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -35,7 +35,7 @@ class RetrofitFactory {
         }
     }
 
-    fun getService(): BrightService {
-        return getRetrofitInstance().create(BrightService::class.java)
+    fun getService(): SoccerMatchesService {
+        return getRetrofitInstance().create(SoccerMatchesService::class.java)
     }
 }
