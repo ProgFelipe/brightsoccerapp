@@ -30,7 +30,7 @@ class FixturesViewModel(private val brightService: BrightService) : ViewModel(),
     private val matchesLiveData = MutableLiveData<List<SoccerMatch>>()
     override val matchesState: LiveData<List<SoccerMatch>> = matchesLiveData
 
-    override val transformLiveData: MutableLiveData<List<SoccerMatch>> =
+    override val fixturesLiveData: MutableLiveData<List<SoccerMatch>> =
         Transformations.switchMap(matchesLiveData) { resource ->
             sortMatches(resource)
         } as MutableLiveData<List<SoccerMatch>>

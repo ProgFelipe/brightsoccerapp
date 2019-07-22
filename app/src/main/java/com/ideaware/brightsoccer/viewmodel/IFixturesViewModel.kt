@@ -8,6 +8,6 @@ interface IFixturesViewModel {
     val loadingState: LiveData<Boolean>
     val matchesState: LiveData<List<SoccerMatch>>
     //val errorState: LiveData<Resource<*>>
-    val transformLiveData: MutableLiveData<List<SoccerMatch>>
+    val fixturesLiveData: MutableLiveData<List<SoccerMatch>>
     fun callFixturesService()
 }

@@ -1,5 +1,12 @@
 package com.ideaware.brightsoccer.viewmodel
 
-interface IResultsViewModel {
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.ideaware.brightsoccer.service.model.SoccerMatch
 
+interface IResultsViewModel {
+    val loadingState: LiveData<Boolean>
+    val matchesState: LiveData<List<SoccerMatch>>
+    val resultsLiveData: MutableLiveData<List<SoccerMatch>>
+    fun callResultsService()
 }

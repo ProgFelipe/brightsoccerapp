@@ -43,7 +43,7 @@ class FixturesFragment : Fragment(), IFixturesView {
             if (it) showProgressBar() else hideProgressBar()
         })
 
-        viewModel.transformLiveData.observe(this, Observer {
+        viewModel.fixturesLiveData.observe(this, Observer {
             (recyclerView.adapter as FixturesRecyclerViewAdapter).matches = it
             (recyclerView.adapter as FixturesRecyclerViewAdapter).notifyDataSetChanged()
         })

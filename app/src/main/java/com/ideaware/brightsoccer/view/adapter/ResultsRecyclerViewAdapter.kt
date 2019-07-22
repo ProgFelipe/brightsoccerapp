@@ -13,6 +13,7 @@ import com.ideaware.brightsoccer.service.model.SoccerMatch
 import com.ideaware.brightsoccer.service.model.State
 import com.ideaware.brightsoccer.service.model.Winner
 import com.ideaware.brightsoccer.utils.fixtureDateFormat
+import com.ideaware.brightsoccer.utils.getMonthAndYear
 import kotlinx.android.synthetic.main.recycler_view_header_item_row.view.*
 import kotlinx.android.synthetic.main.recycler_view_match_item_row.view.awayTeamTextView
 import kotlinx.android.synthetic.main.recycler_view_match_item_row.view.competitionTextView
@@ -64,7 +65,7 @@ class ResultsRecyclerViewAdapter(var matches: List<SoccerMatch> = ArrayList()) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolderHeader) {
-            holder.itemView.dateTextView.text = matches[position].date
+            holder.itemView.dateTextView.text = matches[position].date?.getMonthAndYear()
         } else if (holder is ViewHolderMatch) {
             holder.itemView.competitionTextView.text = matches[position].competitionStage?.competition?.name
 
