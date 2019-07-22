@@ -1,7 +1,8 @@
-package com.ideaware.brightsoccer
+package com.ideaware.brightsoccer.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.ideaware.brightsoccer.R
 
 class MainActivity : AppCompatActivity() {
 
