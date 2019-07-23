@@ -31,7 +31,7 @@
             android:fontFamily="serif-monospace"
             android:lineSpacingExtra="8sp"
             android:textAllCaps="true"
-            android:textColor="#3F51B5"
+            android:textColor="@color/purple"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="CHAMPION LEAGUE" />

@@ -54,7 +54,7 @@ class ResultsFragment : Fragment(), IResultsView {
     }
 
     fun getRecyclerViewAdapter(): BaseRecyclerViewAdapter? {
-        return recyclerView.adapter as ResultsRecyclerViewAdapter
+        return recyclerView?.adapter as ResultsRecyclerViewAdapter?
     }
 
     override fun showProgressBar() {

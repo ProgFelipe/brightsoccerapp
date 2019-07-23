@@ -54,8 +54,8 @@ class FixturesFragment : Fragment(), IFixturesView {
         })
     }
 
-    fun getRecyclerViewAdapter(): BaseRecyclerViewAdapter {
-        return recyclerView.adapter as FixturesRecyclerViewAdapter
+    fun getRecyclerViewAdapter(): BaseRecyclerViewAdapter? {
+        return recyclerView?.adapter as FixturesRecyclerViewAdapter?
     }
 
     override fun showProgressBar() {
