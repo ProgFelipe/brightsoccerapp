@@ -87,7 +87,7 @@ class FixturesRecyclerViewAdapter(matches: List<SoccerMatch> = ArrayList()) :
             holder.itemView.awayTeamTextView.text = filterMatchesList[position].awayTeam?.name
 
             holder.itemView.posponedButton.visibility = if (filterMatchesList[position].state == State.Postponed) View.VISIBLE
-            else View.GONE
+            else View.INVISIBLE
 
             holder.itemView.matchDayTextView.text = filterMatchesList[position].date?.dayAndDayName()
         }
